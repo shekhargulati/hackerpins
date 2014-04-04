@@ -1,6 +1,8 @@
 package org.hackerpins.business.services;
 
 import org.hackerpins.business.builders.StoryBuilder;
+import org.hackerpins.business.domain.Media;
+import org.hackerpins.business.domain.MediaType;
 import org.hackerpins.business.domain.Story;
 import org.hibernate.validator.internal.util.Contracts;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -68,5 +70,11 @@ public class StoryServiceTest {
         Assert.assertNotNull(persistedStory.getId());
     }
 
+    @Test
+    public void shouldSaveStoryWithMedia() throws Exception {
+        StoryBuilder storyBuilder = new StoryBuilder().setUrl("http://openshiftrocks.com").setTitle("OpenShift Rocks!!").setDescription("OpenShift Rocks!!").setMedia(new Media("http://abc.com/test.png", MediaType.PHOTO));
+        Story persistedStory = storyService.save(storyBuilder.createStory());
+        Assert.assertNotNull(persistedStory.getId());
+    }
 
 }

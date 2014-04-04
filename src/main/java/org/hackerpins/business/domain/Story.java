@@ -25,6 +25,7 @@ public class Story {
 
     @NotNull
     @URL
+    @Column(unique = true)
     private String url;
 
     @NotNull
