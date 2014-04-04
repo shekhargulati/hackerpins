@@ -4,7 +4,6 @@ import org.hackerpins.business.builders.StoryBuilder;
 import org.hackerpins.business.domain.Media;
 import org.hackerpins.business.domain.MediaType;
 import org.hackerpins.business.domain.Story;
-import org.hibernate.validator.internal.util.Contracts;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -17,7 +16,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJBException;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+import javax.transaction.RollbackException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Set;
@@ -77,4 +79,18 @@ public class StoryServiceTest {
         Assert.assertNotNull(persistedStory.getId());
     }
 
+    @Test
+    public void shouldThrowStoryUrlExistsExceptionWhenStoryAlreadyExistsInDatabase() throws Exception {
+        StoryBuilder storyBuilder = new StoryBuilder().setUrl("http://openshiftrockz.com").setTitle("OpenShift Rocks!!").setDescription("OpenShift Rocks!!").setMedia(new Media("http://abc.com/test.png", MediaType.PHOTO));
+        storyService.save(storyBuilder.createStory());
+        try{
+            storyService.save(storyBuilder.createStory());
+        }catch (EJBTransactionRolledbackException e){
+            Throwable rollbackException = e.getCause();
+            Assert.assertTrue(rollbackException instanceof RollbackException);
+            Throwable persistenceException = ((RollbackException) rollbackException).getCause();
+            Assert.assertTrue(persistenceException instanceof PersistenceException);
+        }
+
+    }
 }

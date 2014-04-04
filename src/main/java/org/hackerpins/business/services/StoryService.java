@@ -5,6 +5,7 @@ import org.hackerpins.business.domain.Story;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.logging.Logger;
