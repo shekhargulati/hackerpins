@@ -1,4 +1,4 @@
-package org.hackerpins.domain;
+package org.hackerpins.business.domain;
 
 import org.hibernate.validator.constraints.URL;
 

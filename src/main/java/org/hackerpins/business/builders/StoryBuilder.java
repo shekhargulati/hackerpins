@@ -1,7 +1,8 @@
-package org.hackerpins.domain.builders;
+package org.hackerpins.business.builders;
 
-import org.hackerpins.domain.Media;
-import org.hackerpins.domain.Story;
+
+import org.hackerpins.business.domain.Media;
+import org.hackerpins.business.domain.Story;
 
 public class StoryBuilder {
     private String url;

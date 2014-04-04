@@ -1,11 +1,11 @@
-package org.hackerpins.bean_validation;
+package org.hackerpins.business.bean_validation;
 
-import org.hackerpins.domain.Media;
-import org.hackerpins.domain.MediaType;
+
+import org.hackerpins.business.domain.Media;
+import org.hackerpins.business.domain.MediaType;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.lang.annotation.Annotation;
 
 /**
  * Created by shekhargulati on 04/04/14.

@@ -1,4 +1,4 @@
-package org.hackerpins.bean_validation;
+package org.hackerpins.business.bean_validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

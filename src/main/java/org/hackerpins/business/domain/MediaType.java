@@ -1,4 +1,4 @@
-package org.hackerpins.domain;
+package org.hackerpins.business.domain;
 
 /**
  * Created by shekhargulati on 04/04/14.

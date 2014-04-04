@@ -1,6 +1,6 @@
-package org.hackerpins.domain;
+package org.hackerpins.business.domain;
 
-import org.hackerpins.bean_validation.ImageOrVideoSrcUrl;
+import org.hackerpins.business.bean_validation.ImageOrVideoSrcUrl;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;

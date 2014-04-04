@@ -1,7 +1,7 @@
-package org.hackerpins.domain;
+package org.hackerpins.business.domain;
 
-import org.hackerpins.bean_validation.ImageOrVideoSrcUrl;
-import org.hackerpins.domain.builders.StoryBuilder;
+import org.hackerpins.business.bean_validation.ImageOrVideoSrcUrl;
+import org.hackerpins.business.builders.StoryBuilder;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
