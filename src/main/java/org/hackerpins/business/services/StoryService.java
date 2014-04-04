@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -25,6 +26,19 @@ public class StoryService {
         entityManager.persist(story);
         return story;
     }
+
+    public Story findOne(Long storyId) {
+        return entityManager.find(Story.class, storyId);
+    }
+
+    public List<Story> findAll(int start, int max) {
+        return entityManager.createNamedQuery("Story.findAllDescBySubmittedAt", Story.class).setFirstResult(start).setMaxResults(max).getResultList();
+    }
+
+    public long count() {
+        return entityManager.createNamedQuery("Story.count", Long.class).getSingleResult();
+    }
+
 
 
 }

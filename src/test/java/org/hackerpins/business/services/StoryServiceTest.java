@@ -12,16 +12,19 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJBException;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.transaction.RollbackException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,6 +44,13 @@ public class StoryServiceTest {
 
     @Inject
     private StoryService storyService;
+    @Inject
+    private EntityManager entityManager;
+
+    @Before
+    public void setup() throws Exception {
+        entityManager.createQuery("DELETE from Story s").executeUpdate();
+    }
 
     @Test
     public void shouldThrownConstraintVoilationWhenStoryIsNull() throws Exception {
@@ -67,8 +77,7 @@ public class StoryServiceTest {
 
     @Test
     public void shouldSaveStoryWhenDataIsValid() throws Exception {
-        StoryBuilder storyBuilder = new StoryBuilder().setUrl("http://openshift.com").setTitle("OpenShift Rocks!!").setDescription("OpenShift Rocks!!");
-        Story persistedStory = storyService.save(storyBuilder.createStory());
+        Story persistedStory = submitStory();
         Assert.assertNotNull(persistedStory.getId());
     }
 
@@ -81,11 +90,11 @@ public class StoryServiceTest {
 
     @Test
     public void shouldThrowStoryUrlExistsExceptionWhenStoryAlreadyExistsInDatabase() throws Exception {
-        StoryBuilder storyBuilder = new StoryBuilder().setUrl("http://openshiftrockz.com").setTitle("OpenShift Rocks!!").setDescription("OpenShift Rocks!!").setMedia(new Media("http://abc.com/test.png", MediaType.PHOTO));
+        StoryBuilder storyBuilder = new StoryBuilder().setUrl("http://openshiftrocks.com").setTitle("OpenShift Rocks!!").setDescription("OpenShift Rocks!!").setMedia(new Media("http://abc.com/test.png", MediaType.PHOTO));
         storyService.save(storyBuilder.createStory());
-        try{
+        try {
             storyService.save(storyBuilder.createStory());
-        }catch (EJBTransactionRolledbackException e){
+        } catch (EJBTransactionRolledbackException e) {
             Throwable rollbackException = e.getCause();
             Assert.assertTrue(rollbackException instanceof RollbackException);
             Throwable persistenceException = ((RollbackException) rollbackException).getCause();
@@ -93,4 +102,45 @@ public class StoryServiceTest {
         }
 
     }
+
+    @Test
+    public void shouldFindOneStory() throws Exception {
+        Story story = submitStory();
+        Assert.assertEquals(storyService.findOne(story.getId()), story);
+    }
+
+    @Test
+    public void shouldReturnNullWhenStoryDoesNotExistWithStoryId() throws Exception {
+        Story story = storyService.findOne(Long.valueOf(1L));
+        Assert.assertNull(story);
+    }
+
+    @Test
+    public void shouldFindAllPersistedStoriesOrderByTimestamp() throws Exception {
+        submitStory(10);
+        List<Story> stories = storyService.findAll(0, 10);
+        Assert.assertEquals(10, stories.size());
+
+    }
+
+    @Test
+    public void testCountStories() throws Exception {
+        submitStory(10);
+        long count = storyService.count();
+        Assert.assertEquals(10, count);
+
+    }
+
+    private void submitStory(int n) {
+        for (int i = 0; i < n; i++) {
+            StoryBuilder storyBuilder = new StoryBuilder().setUrl("http://openshift.com" + i).setTitle("OpenShift Rocks!!").setDescription("OpenShift Rocks!!");
+            storyService.save(storyBuilder.createStory());
+        }
+    }
+
+    private Story submitStory() {
+        StoryBuilder storyBuilder = new StoryBuilder().setUrl("http://openshift.com").setTitle("OpenShift Rocks!!").setDescription("OpenShift Rocks!!");
+        return storyService.save(storyBuilder.createStory());
+    }
+
 }

@@ -14,6 +14,12 @@ import java.util.List;
  * Created by shekhargulati on 04/04/14.
  */
 @Entity
+@NamedQueries(
+        {
+                @NamedQuery(name = "Story.findAllDescBySubmittedAt", query = "SELECT s from Story s order by s.submittedAt desc "),
+                @NamedQuery(name = "Story.count", query = "SELECT count(s) from Story s")
+        }
+)
 public class Story {
 
     @Id
@@ -126,5 +132,33 @@ public class Story {
                 ", submittedAt=" + submittedAt +
                 ", media=" + media +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Story story = (Story) o;
+
+        if (version != story.version) return false;
+        if (description != null ? !description.equals(story.description) : story.description != null) return false;
+        if (id != null ? !id.equals(story.id) : story.id != null) return false;
+        if (submittedAt != null ? !submittedAt.equals(story.submittedAt) : story.submittedAt != null) return false;
+        if (title != null ? !title.equals(story.title) : story.title != null) return false;
+        if (url != null ? !url.equals(story.url) : story.url != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + version;
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (submittedAt != null ? submittedAt.hashCode() : 0);
+        return result;
     }
 }
