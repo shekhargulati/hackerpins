@@ -24,6 +24,7 @@ import javax.persistence.PersistenceException;
 import javax.transaction.RollbackException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -128,6 +129,17 @@ public class StoryServiceTest {
         submitStory(10);
         long count = storyService.count();
         Assert.assertEquals(10, count);
+
+    }
+
+    @Test
+    public void shouldUpdateStory() throws Exception {
+        Story story = submitStory();
+        story.setTitle("Hello world");
+        story.getTags().addAll(Arrays.asList("java", "nodejs", "python"));
+        Story updatedStory = storyService.update(story);
+        Assert.assertEquals("Hello world", updatedStory.getTitle());
+        Assert.assertEquals(3, updatedStory.getTags().size());
 
     }
 

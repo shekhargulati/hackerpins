@@ -40,5 +40,8 @@ public class StoryService {
     }
 
 
+    public Story update(Story story){
+        return entityManager.merge(story);
+    }
 
 }
