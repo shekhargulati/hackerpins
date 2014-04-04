@@ -6,7 +6,9 @@ import org.hibernate.validator.constraints.URL;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by shekhargulati on 04/04/14.
@@ -16,7 +18,6 @@ public class Story {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     private Long id;
 
     @Version
@@ -39,7 +40,12 @@ public class Story {
     private final Date submittedAt = new Date();
 
     @ImageOrVideoSrcUrl
+    @Embedded
     private Media media;
+
+    @ElementCollection
+    @CollectionTable(name = "Tags")
+    private List<String> tags = new ArrayList<>();
 
     public Story() {
     }
@@ -102,6 +108,10 @@ public class Story {
 
     public void setMedia(Media media) {
         this.media = media;
+    }
+
+    public List<String> getTags() {
+        return tags;
     }
 
     @Override
