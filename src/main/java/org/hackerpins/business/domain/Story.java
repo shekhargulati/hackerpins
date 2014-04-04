@@ -50,7 +50,7 @@ public class Story {
     @Embedded
     private Media media;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "Tags")
     private List<String> tags = new ArrayList<>();
 
