@@ -57,6 +57,15 @@ public class CommentResourceTest {
     }
 
     @Test
+    public void shouldThrowConstraintVoilationExceptionWhenStoryIdIsInvalid(@ArquillianResource URL base) throws Exception {
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget = client.target(URI.create(new URL(base, "api/v1/stories/" + 100111 + "/comments").toExternalForm()));
+        Comment comment = new Comment("Awesome story");
+        Response response = webTarget.request().post(Entity.entity(comment, MediaType.APPLICATION_JSON_TYPE));
+        Assert.assertEquals(400, response.getStatus());
+    }
+
+    @Test
     public void testAddCommentsToStory(@ArquillianResource URL base) throws Exception {
         Story story = createStory(base);
         Client client = ClientBuilder.newClient();
