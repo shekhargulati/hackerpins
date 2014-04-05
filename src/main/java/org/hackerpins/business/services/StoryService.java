@@ -5,6 +5,7 @@ import org.hackerpins.business.domain.Story;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -39,8 +40,15 @@ public class StoryService {
     }
 
 
-    public Story update(Story story){
+    public Story update(Story story) {
         return entityManager.merge(story);
+    }
+
+    public Story like(long id) {
+        Story story = this.findOne(id);
+        entityManager.refresh(story, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        story.setLikes(story.getLikes() + 1);
+        return this.update(story);
     }
 
 }

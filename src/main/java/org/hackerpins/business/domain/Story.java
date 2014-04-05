@@ -54,6 +54,10 @@ public class Story {
     @CollectionTable(name = "Tags")
     private List<String> tags = new ArrayList<>();
 
+    private long likes;
+
+    private long dislikes;
+
     public Story() {
     }
 
@@ -121,6 +125,22 @@ public class Story {
         return tags;
     }
 
+    public long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(long likes) {
+        this.likes = likes;
+    }
+
+    public long getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(long dislikes) {
+        this.dislikes = dislikes;
+    }
+
     @Override
     public String toString() {
         return "Story{" +
@@ -144,7 +164,6 @@ public class Story {
         if (version != story.version) return false;
         if (description != null ? !description.equals(story.description) : story.description != null) return false;
         if (id != null ? !id.equals(story.id) : story.id != null) return false;
-        if (submittedAt != null ? !submittedAt.equals(story.submittedAt) : story.submittedAt != null) return false;
         if (title != null ? !title.equals(story.title) : story.title != null) return false;
         if (url != null ? !url.equals(story.url) : story.url != null) return false;
 
@@ -158,7 +177,6 @@ public class Story {
         result = 31 * result + (url != null ? url.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (submittedAt != null ? submittedAt.hashCode() : 0);
         return result;
     }
 }

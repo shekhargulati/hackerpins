@@ -83,4 +83,13 @@ public class StoryResource {
         });
     }
 
+    @POST
+    @Produces("application/json")
+    @Consumes("application/json")
+    @Path("/{id}/like")
+    public Response like(@PathParam("id") long id) {
+        Story story = storyService.like(id);
+        return Response.status(Response.Status.OK).entity(story).build();
+    }
+
 }
