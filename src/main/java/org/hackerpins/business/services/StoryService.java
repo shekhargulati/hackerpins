@@ -1,5 +1,6 @@
 package org.hackerpins.business.services;
 
+import org.hackerpins.business.domain.Comment;
 import org.hackerpins.business.domain.Story;
 
 import javax.ejb.Stateless;
@@ -56,5 +57,13 @@ public class StoryService {
         entityManager.refresh(story, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
         story.setDislikes(story.getDislikes() + 1);
         return this.update(story);
+    }
+
+    public Comment addCommentToStory(Long storyId, Comment comment) {
+        Story story = this.findOne(storyId);
+        comment.setStory(story);
+        story.getComments().add(comment);
+        entityManager.persist(comment);
+        return comment;
     }
 }

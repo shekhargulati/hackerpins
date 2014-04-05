@@ -58,6 +58,9 @@ public class Story {
 
     private long dislikes;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "story")
+    private List<Comment> comments = new ArrayList<>();
+
     public Story() {
     }
 
@@ -141,6 +144,10 @@ public class Story {
         this.dislikes = dislikes;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
     @Override
     public String toString() {
         return "Story{" +
@@ -179,4 +186,5 @@ public class Story {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
+
 }

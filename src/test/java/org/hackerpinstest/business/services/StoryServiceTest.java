@@ -2,6 +2,7 @@ package org.hackerpinstest.business.services;
 
 import org.hackerpins.business.bean_validation.ImageOrVideoSrcUrl;
 import org.hackerpins.business.builders.StoryBuilder;
+import org.hackerpins.business.domain.Comment;
 import org.hackerpins.business.domain.Media;
 import org.hackerpins.business.domain.MediaType;
 import org.hackerpins.business.domain.Story;
@@ -200,6 +201,14 @@ public class StoryServiceTest {
         }
         latch.await();
         Assert.assertEquals(10, storyService.findOne(story.getId()).getDislikes());
+    }
+
+    @Test
+    public void shouldAddCommentToStory() {
+        Story story = submitStory();
+        Comment comment = new Comment("Awesome story");
+        Comment addedComment = storyService.addCommentToStory(story.getId(), comment);
+        Assert.assertNotNull(addedComment.getId());
     }
 
     private void submitStory(int n) {
