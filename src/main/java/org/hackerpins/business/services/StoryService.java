@@ -64,6 +64,10 @@ public class StoryService {
         comment.setStory(story);
         story.getComments().add(comment);
         entityManager.persist(comment);
-        return comment;
+        return readComment(comment.getId());
+    }
+
+    public Comment readComment(Long commentId) {
+        return entityManager.createNamedQuery("Comment.findOne", Comment.class).setParameter("commentId", commentId).getSingleResult();
     }
 }

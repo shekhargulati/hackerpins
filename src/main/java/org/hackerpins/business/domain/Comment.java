@@ -9,6 +9,9 @@ import java.util.Date;
  * Created by shekhargulati on 06/04/14.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Comment.findOne", query = "SELECT new Comment(c.id,c.text,c.createdAt) from Comment c where c.id =:commentId")
+})
 public class Comment {
 
     @Id
@@ -21,7 +24,7 @@ public class Comment {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(updatable = false)
-    private final Date createdAt = new Date();
+    private Date createdAt = new Date();
 
     @ManyToOne
     private Story story;
@@ -31,6 +34,12 @@ public class Comment {
 
     public Comment(String text) {
         this.text = text;
+    }
+
+    public Comment(Long id, String text, Date createdAt) {
+        this.id = id;
+        this.text = text;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
