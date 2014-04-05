@@ -17,6 +17,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +74,11 @@ public class StoryResource {
             @Override
             public void run() {
                 Map<String, String> map = gooseExtractorClient.fetchImageAndDescription(storyUrl);
-                asyncResponse.resume(Response.status(Response.Status.CREATED).entity(map).build());
+                if (map.size() == 0) {
+                    asyncResponse.resume(Response.status(Response.Status.NO_CONTENT).build());
+                    return;
+                }
+                asyncResponse.resume(Response.status(Response.Status.OK).entity(map).build());
             }
         });
     }
