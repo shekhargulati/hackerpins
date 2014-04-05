@@ -18,7 +18,6 @@ import java.util.List;
         {
                 @NamedQuery(name = "Story.findAllDescBySubmittedAt", query = "SELECT new Story(s) from Story s order by s.submittedAt desc "),
                 @NamedQuery(name = "Story.count", query = "SELECT count(s) from Story s"),
-                @NamedQuery(name = "Story.findStoryWithComments", query = "SELECT s from Story s left join fetch s.comments where s.id =:id"),
                 @NamedQuery(name = "Story.findOne", query = "SELECT new Story(s) from Story s where s.id =:id")
         }
 )
@@ -46,7 +45,7 @@ public class Story {
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     @Column(updatable = false)
-    private final Date submittedAt = new Date();
+    private Date submittedAt = new Date();
 
     @ImageOrVideoSrcUrl
     @Embedded
@@ -74,17 +73,6 @@ public class Story {
         this.media = media;
     }
 
-    public Story(Long id, String url, String title, String description, Media media, long likes, long dislikes) {
-        this.id = id;
-        this.url = url;
-        this.title = title;
-        this.description = description;
-        this.media = media;
-        this.tags = tags;
-        this.likes = likes;
-        this.dislikes = dislikes;
-    }
-
     public Story(Story story) {
         this.id = story.getId();
         this.url = story.getUrl();
@@ -94,6 +82,7 @@ public class Story {
         this.tags = story.getTags();
         this.likes = story.getLikes();
         this.dislikes = story.getDislikes();
+        this.submittedAt = story.submittedAt;
     }
 
     public Long getId() {

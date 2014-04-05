@@ -78,6 +78,9 @@ public class StoryService {
     }
 
     public Story findStoryWithComments(Long id) {
-        return entityManager.createNamedQuery("Story.findStoryWithComments", Story.class).setParameter("id", id).getSingleResult();
+        Story story = entityManager.createNamedQuery("Story.findOne", Story.class).setParameter("id", id).getSingleResult();
+        List<Comment> comments = entityManager.createNamedQuery("Comment.findAllForStory", Comment.class).setParameter("story", story).getResultList();
+        story.getComments().addAll(comments);
+        return story;
     }
 }

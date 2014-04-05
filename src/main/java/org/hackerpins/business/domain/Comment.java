@@ -10,7 +10,8 @@ import java.util.Date;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "Comment.findOne", query = "SELECT new Comment(c.id,c.text,c.createdAt) from Comment c where c.id =:commentId")
+        @NamedQuery(name = "Comment.findOne", query = "SELECT new Comment(c.id,c.text,c.createdAt) from Comment c where c.id =:commentId"),
+        @NamedQuery(name = "Comment.findAllForStory", query = "SELECT new Comment(c.id,c.text,c.createdAt) from Comment c where c.story =:story")
 })
 public class Comment {
 
