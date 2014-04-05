@@ -26,9 +26,9 @@ public class ImageOrVideoSrcUrlValidator implements ConstraintValidator<ImageOrV
         MediaType mediaType = media.getType();
         switch (mediaType) {
             case PHOTO:
-                return mediaUrl.endsWith(".jpg") || mediaUrl.endsWith(".png") || mediaUrl.endsWith(".jpeg");
+                return mediaUrl.contains(".jpg") || mediaUrl.contains(".png") || mediaUrl.contains(".jpeg");
             case VIDEO:
-                return mediaUrl.endsWith(".mp4");
+                return mediaUrl.contains(".mp4");
             default:
                 return false;
         }
