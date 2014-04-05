@@ -1,5 +1,6 @@
 package org.hackerpins.rest.resources;
 
+import org.hackerpins.business.bean_validation.StoryExists;
 import org.hackerpins.business.domain.Story;
 import org.hackerpins.business.services.GooseExtractorClient;
 import org.hackerpins.business.services.StoryService;
@@ -47,8 +48,8 @@ public class StoryResource {
     @GET
     @Produces("application/json")
     @Path("/{id}")
-    public Story findStory(@PathParam("id") Long id) {
-        return storyService.findOne(id);
+    public Story findStory(@NotNull @StoryExists @PathParam("id") Long id) {
+        return storyService.findStoryWithComments(id);
     }
 
 

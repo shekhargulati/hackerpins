@@ -32,6 +32,10 @@ public class StoryService {
         return entityManager.find(Story.class, storyId);
     }
 
+    public Story findStory(Long storyId) {
+        return entityManager.createNamedQuery("Story.findOne", Story.class).setParameter("id", storyId).getSingleResult();
+    }
+
     public List<Story> findAll(int start, int max) {
         return entityManager.createNamedQuery("Story.findAllDescBySubmittedAt", Story.class).setFirstResult(start).setMaxResults(max).getResultList();
     }
@@ -49,14 +53,16 @@ public class StoryService {
         Story story = this.findOne(id);
         entityManager.refresh(story, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
         story.setLikes(story.getLikes() + 1);
-        return this.update(story);
+        story = this.update(story);
+        return findStory(story.getId());
     }
 
     public Story dislike(long id) {
         Story story = this.findOne(id);
         entityManager.refresh(story, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
         story.setDislikes(story.getDislikes() + 1);
-        return this.update(story);
+        story = this.update(story);
+        return findStory(story.getId());
     }
 
     public Comment addCommentToStory(Long storyId, Comment comment) {
@@ -69,5 +75,9 @@ public class StoryService {
 
     public Comment readComment(Long commentId) {
         return entityManager.createNamedQuery("Comment.findOne", Comment.class).setParameter("commentId", commentId).getSingleResult();
+    }
+
+    public Story findStoryWithComments(Long id) {
+        return entityManager.createNamedQuery("Story.findStoryWithComments", Story.class).setParameter("id", id).getSingleResult();
     }
 }

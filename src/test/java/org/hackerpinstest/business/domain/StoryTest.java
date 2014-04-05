@@ -2,6 +2,7 @@ package org.hackerpinstest.business.domain;
 
 import org.hackerpins.business.bean_validation.ImageOrVideoSrcUrl;
 import org.hackerpins.business.builders.StoryBuilder;
+import org.hackerpins.business.domain.Comment;
 import org.hackerpins.business.domain.Media;
 import org.hackerpins.business.domain.MediaType;
 import org.hackerpins.business.domain.Story;
@@ -28,7 +29,7 @@ public class StoryTest {
 
     @Deployment
     public static Archive<?> deployment() {
-        return ShrinkWrap.create(JavaArchive.class).addClasses(Story.class, Media.class, MediaType.class, StoryBuilder.class).addPackage(ImageOrVideoSrcUrl.class.getPackage()).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+        return ShrinkWrap.create(JavaArchive.class).addClasses(Story.class, Media.class, MediaType.class, StoryBuilder.class, Comment.class).addPackage(ImageOrVideoSrcUrl.class.getPackage()).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Inject
@@ -108,6 +109,7 @@ public class StoryTest {
         Set<ConstraintViolation<Story>> constraintViolations = validator.validate(story);
         Assert.assertEquals(0, constraintViolations.size());
     }
+
     private static String conact(String str, int times) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < times; i++) {

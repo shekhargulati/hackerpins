@@ -31,6 +31,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -62,6 +63,7 @@ public class StoryResourceTest {
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target(URI.create(new URL(base, "api/v1/stories").toExternalForm()));
         Story story = new StoryBuilder().setTitle("OpenShift Rocks").setDescription("OpenShift Rocks").setUrl("http://openshift.com").createStory();
+        story.getTags().addAll(Arrays.asList("java", "nodejs", "ruby"));
         Response response = webTarget.request().post(Entity.entity(story, MediaType.APPLICATION_JSON_TYPE));
         Assert.assertEquals(201, response.getStatus());
         Story readEntity = response.readEntity(Story.class);
@@ -75,6 +77,7 @@ public class StoryResourceTest {
         WebTarget webTarget = client.target(URI.create(new URL(base, "api/v1/stories").toExternalForm()));
         Story story = new StoryBuilder().setTitle("OpenShift Rocks updated").setDescription("OpenShift Rocks updated").setUrl("http://openshift.com").createStory();
         story.setId(Long.valueOf(1L));
+        story.getTags().addAll(Arrays.asList("java", "nodejs", "ruby"));
         Response response = webTarget.request().header("Accept", MediaType.APPLICATION_JSON).put(Entity.entity(story, MediaType.APPLICATION_JSON_TYPE));
         Assert.assertEquals(200, response.getStatus());
         Story readEntity = response.readEntity(Story.class);
@@ -101,6 +104,7 @@ public class StoryResourceTest {
         };
         List<Story> stories = webTarget.request().get(listGenericType);
         Assert.assertEquals(1, stories.size());
+        Assert.assertEquals(3, stories.get(0).getTags().size());
     }
 
     @Test

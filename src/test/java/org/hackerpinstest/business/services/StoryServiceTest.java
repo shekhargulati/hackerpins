@@ -211,6 +211,22 @@ public class StoryServiceTest {
         Assert.assertNotNull(addedComment.getId());
     }
 
+    @Test
+    public void shouldFetchStoryWithComments() {
+        Story story = submitStory();
+        Comment comment1 = new Comment("Awesome story 1");
+        Comment comment2 = new Comment("Awesome story 2");
+        Comment comment3 = new Comment("Awesome story 3");
+        storyService.addCommentToStory(story.getId(), comment1);
+        storyService.addCommentToStory(story.getId(), comment2);
+        storyService.addCommentToStory(story.getId(), comment3);
+
+        Story storyWithComments = storyService.findStoryWithComments(story.getId());
+        Assert.assertEquals(3, storyWithComments.getComments().size());
+        Assert.assertEquals("Awesome story 1", storyWithComments.getComments().get(0).getText());
+
+    }
+
     private void submitStory(int n) {
         for (int i = 0; i < n; i++) {
             StoryBuilder storyBuilder = new StoryBuilder().setUrl("http://openshift.com" + i).setTitle("OpenShift Rocks!!").setDescription("OpenShift Rocks!!");
