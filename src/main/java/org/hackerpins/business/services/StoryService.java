@@ -51,4 +51,10 @@ public class StoryService {
         return this.update(story);
     }
 
+    public Story dislike(long id) {
+        Story story = this.findOne(id);
+        entityManager.refresh(story, LockModeType.PESSIMISTIC_FORCE_INCREMENT);
+        story.setDislikes(story.getDislikes() + 1);
+        return this.update(story);
+    }
 }

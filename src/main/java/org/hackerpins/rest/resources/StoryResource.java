@@ -92,4 +92,12 @@ public class StoryResource {
         return Response.status(Response.Status.OK).entity(story).build();
     }
 
+    @POST
+    @Produces("application/json")
+    @Consumes("application/json")
+    @Path("/{id}/dislike")
+    public Response dislike(@PathParam("id") long id) {
+        Story story = storyService.dislike(id);
+        return Response.status(Response.Status.OK).entity(story).build();
+    }
 }
