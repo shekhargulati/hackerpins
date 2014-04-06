@@ -17,7 +17,6 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Before;
@@ -144,7 +143,7 @@ public class StoryServiceTest {
     @Test
     public void shouldFindAllPersistedStoriesOrderByTimestamp() throws Exception {
         submitStory(10);
-        List<Story> stories = storyService.findAll(0, 10);
+        List<Story> stories = storyService.hotStories(0, 10);
         Assert.assertEquals(10, stories.size());
 
     }
@@ -230,7 +229,9 @@ public class StoryServiceTest {
     private void submitStory(int n) {
         for (int i = 0; i < n; i++) {
             StoryBuilder storyBuilder = new StoryBuilder().setUrl("http://openshift.com" + i).setTitle("OpenShift Rocks!!").setDescription("OpenShift Rocks!!");
-            storyService.save(storyBuilder.createStory());
+            Story story = storyBuilder.createStory();
+            story.setScore(11);
+            storyService.save(story);
         }
     }
 

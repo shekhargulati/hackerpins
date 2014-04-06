@@ -63,6 +63,7 @@ public class StoryResourceTest {
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target(URI.create(new URL(base, "api/v1/stories").toExternalForm()));
         Story story = new StoryBuilder().setTitle("OpenShift Rocks").setDescription("OpenShift Rocks").setUrl("http://openshift.com").createStory();
+        story.setScore(11);
         story.getTags().addAll(Arrays.asList("java", "nodejs", "ruby"));
         Response response = webTarget.request().post(Entity.entity(story, MediaType.APPLICATION_JSON_TYPE));
         Assert.assertEquals(201, response.getStatus());
@@ -77,6 +78,7 @@ public class StoryResourceTest {
         WebTarget webTarget = client.target(URI.create(new URL(base, "api/v1/stories").toExternalForm()));
         Story story = new StoryBuilder().setTitle("OpenShift Rocks updated").setDescription("OpenShift Rocks updated").setUrl("http://openshift.com").createStory();
         story.setId(Long.valueOf(1L));
+        story.setScore(11);
         story.getTags().addAll(Arrays.asList("java", "nodejs", "ruby"));
         Response response = webTarget.request().header("Accept", MediaType.APPLICATION_JSON).put(Entity.entity(story, MediaType.APPLICATION_JSON_TYPE));
         Assert.assertEquals(200, response.getStatus());

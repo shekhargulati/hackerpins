@@ -3,6 +3,7 @@ package org.hackerpins.business.domain;
 import org.hackerpins.business.bean_validation.ImageOrVideoSrcUrl;
 import org.hibernate.validator.constraints.URL;
 
+import javax.inject.Named;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,9 +17,11 @@ import java.util.List;
 @Entity
 @NamedQueries(
         {
-                @NamedQuery(name = "Story.findAllDescBySubmittedAt", query = "SELECT new Story(s) from Story s order by s.submittedAt desc "),
+                @NamedQuery(name = "Story.hotStories", query = "SELECT new Story(s) from Story s where s.score > 10 order by s.submittedAt desc "),
                 @NamedQuery(name = "Story.count", query = "SELECT count(s) from Story s"),
-                @NamedQuery(name = "Story.findOne", query = "SELECT new Story(s) from Story s where s.id =:id")
+                @NamedQuery(name = "Story.findOne", query = "SELECT new Story(s) from Story s where s.id =:id"),
+                @NamedQuery(name = "Story.upcomingStories", query = "SELECT new Story(s) from Story s where s.score < 10 order by s.submittedAt desc "),
+
         }
 )
 public class Story {
@@ -59,6 +62,8 @@ public class Story {
 
     private long dislikes;
 
+    private long score;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "story")
     private List<Comment> comments = new ArrayList<>();
 
@@ -83,6 +88,7 @@ public class Story {
         this.likes = story.getLikes();
         this.dislikes = story.getDislikes();
         this.submittedAt = story.submittedAt;
+        this.score = story.score;
     }
 
     public Long getId() {
@@ -159,6 +165,14 @@ public class Story {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public long getScore() {
+        return score;
+    }
+
+    public void setScore(long score) {
+        this.score = score;
     }
 
     @Override

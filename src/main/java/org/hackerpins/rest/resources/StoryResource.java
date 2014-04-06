@@ -18,7 +18,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.container.AsyncResponse;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.Response;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -55,8 +54,15 @@ public class StoryResource {
 
     @GET
     @Produces("application/json")
-    public List<Story> allStories(@Min(Constants.START_FOR_QUERY) @QueryParam("start") int start, @Max(Constants.MAX_RESULTS_FOR_QUERY) @QueryParam("max") int max) {
-        return storyService.findAll(start, max);
+    public List<Story> hostStories(@Min(Constants.START_FOR_QUERY) @QueryParam("start") int start, @Max(Constants.MAX_RESULTS_FOR_QUERY) @QueryParam("max") int max) {
+        return storyService.hotStories(start, max);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/upcoming")
+    public List<Story> upcomingStories(@Min(Constants.START_FOR_QUERY) @QueryParam("start") int start, @Max(Constants.MAX_RESULTS_FOR_QUERY) @QueryParam("max") int max) {
+        return storyService.upcomingStories(start, max);
     }
 
     @PUT
