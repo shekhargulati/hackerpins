@@ -56,7 +56,10 @@
             <a class="btn" ng-click="dislike(story)"><i class="glyphicon glyphicon-thumbs-down"></i> {{story.dislikes}}</a>
         </div>
         <div class="col-md-1">
-            <a class="btn" ng-href="#stories/{{story.id}}/share"><i class="glyphicon glyphicon-share"></i></a>
+            <a class="btn" target="_blank" href="https://www.facebook.com/dialog/feed?redirect_uri=http://www.hackerpins.com/&link={{story.url}}&display=popup&app_id=1462503373982129"><i class="fa fa-facebook"></i> Facebook</a>
+        </div>
+        <div class="col-md-1">
+            <a class="btn" target="_blank" href="https://twitter.com/intent/tweet?url={{story.url}}&text={{story.title}}&via=hackerpins"><i class="fa fa-twitter"></i> Twitter</a>
         </div>
     </div>
     <hr>
