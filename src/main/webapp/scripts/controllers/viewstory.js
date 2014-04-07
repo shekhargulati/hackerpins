@@ -28,7 +28,7 @@ angular.module('hackerpins')
 
             modalInstance.result.then(function (data) {
                 $scope.selected = data;
-                $http.post('http://localhost:8080/hackerpins/api/v1/stories/' + storyId + '/comments', $scope.comment).success(function (data, status, headers, config) {
+                $http.post('api/v1/stories/' + storyId + '/comments', $scope.comment).success(function (data, status, headers, config) {
                     $scope.story.comments.push(data);
                     $scope.comment = {};
                 }).error(function (data, status, headers, config) {
