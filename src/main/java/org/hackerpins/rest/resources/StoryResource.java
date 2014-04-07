@@ -54,7 +54,7 @@ public class StoryResource {
 
     @GET
     @Produces("application/json")
-    public List<Story> hostStories(@Min(Constants.START_FOR_QUERY) @QueryParam("start") int start, @Max(Constants.MAX_RESULTS_FOR_QUERY) @QueryParam("max") int max) {
+    public List<Story> hotStories(@Min(Constants.START_FOR_QUERY) @QueryParam("start") int start, @Max(Constants.MAX_RESULTS_FOR_QUERY) @QueryParam("max") int max) {
         return storyService.hotStories(start, max);
     }
 

@@ -1,11 +1,5 @@
 package org.hackerpins.business.services;
 
-import java.io.StringReader;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -13,6 +7,11 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import java.io.StringReader;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
 
 @ApplicationScoped
 public class GooseExtractorClient {
@@ -21,6 +20,7 @@ public class GooseExtractorClient {
     @Inject
     private Logger logger;
 
+    // TODO : Can we use JAX-RS Client Async API here?
     public Map<String, String> fetchImageAndDescription(String url) {
         Client client = ClientBuilder.newClient();
         try {
