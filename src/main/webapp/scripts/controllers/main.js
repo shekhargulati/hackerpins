@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('hackerpins')
-    .controller('MainCtrl', function ($scope, $http) {
+    .controller('MainCtrl', function ($scope, $http, AuthService, $location) {
         $scope.delete = function (story, index) {
             alert("Delete called for " + index);
             alert("Story " + JSON.stringify(story));
@@ -14,19 +14,29 @@ angular.module('hackerpins')
         });
 
         $scope.like = function (story) {
-            $http.post('api/v1/stories/' + story.id + '/like').success(function (data, status, headers, config) {
-                story.likes = data.likes;
-            }).error(function (data, status, headers, config) {
-                alert(status);
-            });
+            if (!AuthService.isLoggedIn()) {
+                $location.path('/login');
+            } else {
+                $http.post('api/v1/stories/' + story.id + '/like').success(function (data, status, headers, config) {
+                    story.likes = data.likes;
+                }).error(function (data, status, headers, config) {
+                    alert(status);
+                });
+            }
+
         }
 
         $scope.dislike = function (story) {
-            $http.post('api/v1/stories/' + story.id + '/dislike').success(function (data, status, headers, config) {
-                story.dislikes = data.dislikes;
-            }).error(function (data, status, headers, config) {
-                alert(status);
-            });
+            if (!AuthService.isLoggedIn()) {
+                $location.path('/login');
+            }else{
+                $http.post('api/v1/stories/' + story.id + '/dislike').success(function (data, status, headers, config) {
+                    story.dislikes = data.dislikes;
+                }).error(function (data, status, headers, config) {
+                    alert(status);
+                });
+            }
+
         }
 
     }

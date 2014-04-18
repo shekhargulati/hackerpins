@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('hackerpins')
-    .controller('ViewstoryCtrl', function ($scope, $http, $routeParams, $location, $modal, $log) {
+    .controller('ViewstoryCtrl', function ($scope, $http, $routeParams, $location, $modal, $log, AuthService) {
 
         var storyId = $routeParams.id;
         $http.get('api/v1/stories/' + storyId).success(function (data, status, headers, config) {
@@ -11,19 +11,29 @@ angular.module('hackerpins')
         });
 
         $scope.like = function (story) {
-            $http.post('api/v1/stories/' + story.id + '/like').success(function (data, status, headers, config) {
-                story.likes = data.likes;
-            }).error(function (data, status, headers, config) {
-                alert(status);
-            });
+            if (!AuthService.isLoggedIn()) {
+                $location.path('/login');
+            } else {
+                $http.post('api/v1/stories/' + story.id + '/like').success(function (data, status, headers, config) {
+                    story.likes = data.likes;
+                }).error(function (data, status, headers, config) {
+                    alert(status);
+                });
+            }
+
         }
 
         $scope.dislike = function (story) {
-            $http.post('api/v1/stories/' + story.id + '/dislike').success(function (data, status, headers, config) {
-                story.dislikes = data.dislikes;
-            }).error(function (data, status, headers, config) {
-                alert(status);
-            });
+            if (!AuthService.isLoggedIn()) {
+                $location.path('/login');
+            }else{
+                $http.post('api/v1/stories/' + story.id + '/dislike').success(function (data, status, headers, config) {
+                    story.dislikes = data.dislikes;
+                }).error(function (data, status, headers, config) {
+                    alert(status);
+                });
+            }
+
         }
 
         $scope.comment = {};
