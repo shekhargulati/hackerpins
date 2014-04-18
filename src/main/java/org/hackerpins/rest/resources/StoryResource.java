@@ -4,6 +4,7 @@ import org.hackerpins.business.bean_validation.StoryExists;
 import org.hackerpins.business.domain.Story;
 import org.hackerpins.business.services.GooseExtractorClient;
 import org.hackerpins.business.services.StoryService;
+import org.hackerpins.interceptors.LoggedIn;
 import org.hackerpins.rest.utils.Constants;
 import org.hibernate.validator.constraints.URL;
 
@@ -39,6 +40,7 @@ public class StoryResource {
     @POST
     @Consumes("application/json")
     @Produces("application/json")
+    @LoggedIn
     public Response submitStory(@NotNull @Valid Story story) {
         Story submittedStory = storyService.save(story);
         return Response.status(Response.Status.CREATED).entity(submittedStory).build();
@@ -94,6 +96,7 @@ public class StoryResource {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{id}/like")
+    @LoggedIn
     public Response like(@PathParam("id") long id) {
         Story story = storyService.like(id);
         return Response.status(Response.Status.OK).entity(story).build();
@@ -103,6 +106,7 @@ public class StoryResource {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/{id}/dislike")
+    @LoggedIn
     public Response dislike(@PathParam("id") long id) {
         Story story = storyService.dislike(id);
         return Response.status(Response.Status.OK).entity(story).build();
