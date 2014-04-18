@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 @Provider
 @LoggedIn
-public class LoginRequestFilter implements ContainerRequestFilter {
+public class AuthenticationCheckFilter implements ContainerRequestFilter {
 
     @Context
     private HttpServletRequest request;
@@ -25,7 +25,7 @@ public class LoginRequestFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        logger.info("In LoginRequestFilter ...");
+        logger.info("In AuthenticationCheckFilter ...");
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("loggedInUser") == null) {
             logger.info("Returing Forbidden...");

@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.logging.Logger;
@@ -38,4 +39,15 @@ public class ProfileService {
     }
 
 
+    public Profile findByUsernameOrEmailAndPassword(String username, String password) {
+        try {
+            TypedQuery<Profile> query = entityManager.createQuery("SELECT new Profile(p.username,p.email,p.fullname) from Profile p where p.username =:username OR p.email =:username AND p.password =:password", Profile.class);
+            query.setParameter("username", username);
+            query.setParameter("password", password);
+            query.getSingleResult();
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }
