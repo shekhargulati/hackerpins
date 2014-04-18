@@ -4,7 +4,7 @@ import org.hackerpins.business.bean_validation.StoryExists;
 import org.hackerpins.business.domain.Story;
 import org.hackerpins.business.services.GooseExtractorClient;
 import org.hackerpins.business.services.StoryService;
-import org.hackerpins.interceptors.LoggedIn;
+import org.hackerpins.rest.interceptors.LoggedIn;
 import org.hackerpins.rest.utils.Constants;
 import org.hibernate.validator.constraints.URL;
 

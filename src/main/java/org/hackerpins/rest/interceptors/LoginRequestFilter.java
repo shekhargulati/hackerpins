@@ -1,4 +1,4 @@
-package org.hackerpins.interceptors;
+package org.hackerpins.rest.interceptors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;

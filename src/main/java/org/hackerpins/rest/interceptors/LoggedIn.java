@@ -1,6 +1,5 @@
-package org.hackerpins.interceptors;
+package org.hackerpins.rest.interceptors;
 
-import javax.interceptor.InterceptorBinding;
 import javax.ws.rs.NameBinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
