@@ -41,11 +41,11 @@ app.run(['$rootScope', '$location', 'AuthService', function ($rootScope, $locati
         var currentUrlLocation = $location.url();
         console.log('Current Location ' + currentUrlLocation);
         if (currentUrlLocation === '/stories/new') {
-            if(!AuthService.isLoggedIn()){
+            if (!AuthService.isLoggedIn()) {
                 console.log('User not loggedin');
                 event.preventDefault();
-                $location.path('/login')
-            }else{
+                $location.path('/login').search('redirectTo',currentUrlLocation);
+            } else {
                 console.log('User already loggedin..');
                 $location.path('/stories/new');
             }
