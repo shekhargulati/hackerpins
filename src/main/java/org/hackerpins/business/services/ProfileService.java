@@ -19,6 +19,7 @@ public class ProfileService {
 
     @Inject
     private Logger logger;
+
     @Inject
     private EntityManager entityManager;
 
@@ -39,9 +40,9 @@ public class ProfileService {
     }
 
 
-    public Profile findByUsernameOrEmailAndPassword(String username, String password) {
+    public Profile findByUsernameOrEmailAndPassword(@NotNull String username, @NotNull String password) {
         try {
-            TypedQuery<Profile> query = entityManager.createQuery("SELECT new Profile(p.username,p.email,p.fullname) from Profile p where p.username =:username OR p.email =:username AND p.password =:password", Profile.class);
+            TypedQuery<Profile> query = entityManager.createNamedQuery("Profile.findByUsernameOrEmailAndPassword", Profile.class);
             query.setParameter("username", username);
             query.setParameter("password", password);
             query.getSingleResult();

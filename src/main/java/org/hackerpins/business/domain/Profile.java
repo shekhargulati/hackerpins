@@ -15,7 +15,8 @@ import javax.validation.constraints.Size;
         @Index(unique = true, columnList = "username")
 })
 @NamedQueries({
-        @NamedQuery(name = "Profile.findByEmail", query = "SELECT new Profile(p.username,p.email,p.fullname) from Profile p where p.email =:email")
+        @NamedQuery(name = "Profile.findByEmail", query = "SELECT new Profile(p.username,p.email,p.fullname) from Profile p where p.email =:email"),
+        @NamedQuery(name= "Profile.findByUsernameOrEmailAndPassword",query = "SELECT new Profile(p.username,p.email,p.fullname) from Profile p where p.username =:username OR p.email =:username AND p.password =:password")
 })
 public class Profile {
 

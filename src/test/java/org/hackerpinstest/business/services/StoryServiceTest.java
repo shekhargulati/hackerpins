@@ -11,6 +11,7 @@ import org.hackerpins.business.services.StoryService;
 import org.hackerpins.rest.config.RestConfig;
 import org.hackerpins.rest.resources.StoryResource;
 import org.hackerpins.rest.utils.Constants;
+import org.hackerpins.rest.vo.Credentials;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -56,6 +57,7 @@ public class StoryServiceTest {
                 addPackage(RestConfig.class.getPackage()).
                 addPackage(StoryResource.class.getPackage()).
                 addPackage(Constants.class.getPackage()).
+                addPackage(Credentials.class.getPackage()).
                 addAsResource("META-INF/persistence.xml").
                 addAsWebInfResource(EmptyAsset.INSTANCE, ArchivePaths.create("beans.xml"));
         System.out.println(webArchive.toString(true));
