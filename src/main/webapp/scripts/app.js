@@ -63,7 +63,12 @@ app.factory('AuthService', function () {
         },
         isLoggedIn: function () {
             return loggedInuser ? loggedInuser : false;
+        },
+
+        getUser : function(){
+            return loggedInuser;
         }
+
     }
 });
 
