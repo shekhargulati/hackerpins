@@ -35,4 +35,6 @@ public class LoginResponseFilter implements ContainerResponseFilter {
             session.setAttribute("loggedInUser", responseContext.getEntity());
         }
     }
+
+
 }
