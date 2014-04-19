@@ -4,6 +4,7 @@ import org.hackerpins.business.bean_validation.StoryExists;
 import org.hackerpins.business.domain.Story;
 import org.hackerpins.business.services.GooseExtractorClient;
 import org.hackerpins.business.services.StoryService;
+import org.hackerpins.business.services.TweetService;
 import org.hackerpins.rest.interceptors.LoggedIn;
 import org.hackerpins.rest.utils.Constants;
 import org.hibernate.validator.constraints.URL;
@@ -37,12 +38,16 @@ public class StoryResource {
     @Inject
     private GooseExtractorClient gooseExtractorClient;
 
+    @Inject
+    private TweetService tweetService;
+
     @POST
     @Consumes("application/json")
     @Produces("application/json")
     @LoggedIn
     public Response submitStory(@NotNull @Valid Story story) {
         Story submittedStory = storyService.save(story);
+        tweetService.tweet(submittedStory);
         return Response.status(Response.Status.CREATED).entity(submittedStory).build();
     }
 
