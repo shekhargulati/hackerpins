@@ -23,8 +23,9 @@ public class ProfileService {
     @Inject
     private EntityManager entityManager;
 
-    public void save(@Valid @NotNull Profile profile) {
+    public Profile save(@Valid @NotNull Profile profile) {
         entityManager.persist(profile);
+        return profile;
     }
 
     public Profile findOne(Long profileId) {
