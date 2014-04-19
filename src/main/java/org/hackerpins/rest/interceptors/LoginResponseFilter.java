@@ -2,6 +2,7 @@ package org.hackerpins.rest.interceptors;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
@@ -29,7 +30,9 @@ public class LoginResponseFilter implements ContainerResponseFilter {
         int status = responseContext.getStatus();
         if (status == Response.Status.OK.getStatusCode()) {
             logger.info("User is successfully loggedin..");
-            request.getSession(true).setAttribute("loggedInUser", responseContext.getEntity());
+            HttpSession session = request.getSession(true);
+            System.out.println("LoginResponseFilter sessionId : " + session.getId());
+            session.setAttribute("loggedInUser", responseContext.getEntity());
         }
     }
 }

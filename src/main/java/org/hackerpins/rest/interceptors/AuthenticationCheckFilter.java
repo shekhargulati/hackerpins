@@ -27,6 +27,11 @@ public class AuthenticationCheckFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         logger.info("In AuthenticationCheckFilter ...");
         HttpSession session = request.getSession(false);
+        logger.info("Session " + session);
+        if (session != null) {
+            System.out.println(session.getAttribute("loggedInUser"));
+            System.out.println(session.getId());
+        }
         if (session == null || session.getAttribute("loggedInUser") == null) {
             logger.info("Returing Forbidden...");
             requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
