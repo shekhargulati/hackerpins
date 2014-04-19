@@ -23,7 +23,7 @@ angular.module('hackerpins')
                 toastr.success('You are successfully logged out.');
                 $location.path('/');
             }).error(function (data, header) {
-                toastr.success('Error in logging out.');
+                toastr.error('Error in logging out.');
                 $location.path('/');
             })
         }
