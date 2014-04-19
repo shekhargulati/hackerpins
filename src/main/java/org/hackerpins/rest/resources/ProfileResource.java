@@ -6,11 +6,15 @@ import org.hackerpins.rest.interceptors.Login;
 import org.hackerpins.rest.vo.Credentials;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 /**
@@ -21,6 +25,9 @@ public class ProfileResource {
 
     @Inject
     private ProfileService profileService;
+    @Context
+    private HttpServletRequest request;
+
 
     @POST
     @Path("/register")
@@ -42,5 +49,16 @@ public class ProfileResource {
             return Response.status(Response.Status.BAD_REQUEST).entity("Username/password combination incorrect").build();
         }
         return Response.status(Response.Status.OK).entity(profile).build();
+    }
+
+    @POST
+    @Path("/logout")
+    @Produces("application/json")
+    public Response logout() {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return Response.status(Response.Status.OK).build();
     }
 }
