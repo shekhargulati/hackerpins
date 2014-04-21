@@ -33,7 +33,7 @@
             <li ng-class="{ active: isActive('/login')}" ng-if="!isLoggedIn()"><a href="#/login">Login</a></li>
             <li ng-class="{ active: isActive('/register')}" ng-if="!isLoggedIn()"><a href="#/register">Register</a></li>
             <li class="dropdown" ng-if="isLoggedIn()">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{fullname()}} <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-bind="fullname()"></a>
                 <ul class="dropdown-menu">
                     <li><a href="#" ng-click="logout()">Logout</a></li>
                 </ul>
